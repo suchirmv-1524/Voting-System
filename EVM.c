@@ -16,22 +16,19 @@ typedef struct VOTER {
 #define MAX_CANDIDATES_PER_CONSTITUENCY 10
 #define MAX_CONSTITUENCIES 10
 
-// Define structure for candidate information
 struct Candidate {
     int candidateID;
-    char fullName[100]; // Full name of the candidate
-    int votes;     // Number of votes the candidate received
+    char fullName[100];
+    int votes;     
 };
 
-// Define structure for n-ary tree node
 struct TreeNode {
-    char constituency[100]; // Name of the constituency
-    struct Candidate candidates[MAX_CANDIDATES_PER_CONSTITUENCY]; // Array of candidates
-    int candidateCount; // Number of candidates in the constituency
-    struct TreeNode *nextConstituency; // Pointer to the next constituency
+    char constituency[100];
+    struct Candidate candidates[MAX_CANDIDATES_PER_CONSTITUENCY]; 
+    int candidateCount;
+    struct TreeNode *nextConstituency; 
 };
 
-// Create a new node with given constituency
 struct TreeNode *createNode(const char *constituency) {
     struct TreeNode *newNode = (struct TreeNode *)malloc(sizeof(struct TreeNode));
     if (newNode != NULL) {
@@ -42,7 +39,6 @@ struct TreeNode *createNode(const char *constituency) {
     return newNode;
 }
 
-// Add a candidate to a given constituency node
 void addCandidate(struct TreeNode *constituencyNode, int candidateID, const char *fullName, long int votes) {
     if (constituencyNode == NULL || constituencyNode->candidateCount >= MAX_CANDIDATES_PER_CONSTITUENCY) {
         printf("Invalid constituency or candidate limit reached!!!\n");
@@ -57,7 +53,6 @@ void addCandidate(struct TreeNode *constituencyNode, int candidateID, const char
     constituencyNode->candidateCount++;
 }
 
-// Display all candidates under a given constituency name passed as an argument
 void displayCandidatesUnderConstituency(struct TreeNode *root, const char *constituencyName) {
     struct TreeNode *currentNode = root;
     while (currentNode != NULL) {
@@ -78,7 +73,6 @@ struct TreeNode *createCandidates() {
     struct TreeNode *currentConstituency = NULL;
     char choice;
 
-    // Example: Adding candidates for constituencies
     root = createNode("National");
 
     do {
@@ -125,15 +119,11 @@ struct TreeNode *createCandidates() {
     return root;
 }
 
-// Function to execute creation and display of candidates
 void executeCandidateManagement() {
     struct TreeNode *root = createCandidates();
-    char consti[100]; // Changed the consti variable to an array to store the constituency name
+    char consti[100]; 
     printf("Enter your constituency name: ");
-    scanf("%99s", consti); // Read the constituency name
-
-    // Display candidates under the given constituency name
-    //displayCandidatesUnderConstituency(root, consti);
+    scanf("%99s", consti);
 }
 
 v *a[NUMBER_OF_VOTERS];
@@ -205,15 +195,13 @@ int search() {
 
 void cast(int index, const char* constituency, const char* candidate,struct TreeNode* root) {
     bool candidateFound = false;
-
-    // Check if the candidate is registered under the voter's constituency
-    struct TreeNode *currentNode = root; // Assuming 'root' is the pointer to the constituency-candidate structure
+    struct TreeNode *currentNode = root; 
     while (currentNode != NULL) {
         if (strcmp(currentNode->constituency, constituency) == 0) {
             for (int i = 0; i < currentNode->candidateCount; ++i) {
                 if (strcmp(currentNode->candidates[i].fullName, candidate) == 0) {
                     candidateFound = true;
-                    currentNode->candidates[i].votes++; // Increment votes for the candidate
+                    currentNode->candidates[i].votes++; 
                     break;
                 }
             }
@@ -227,7 +215,6 @@ void cast(int index, const char* constituency, const char* candidate,struct Tree
         return;
     }
 
-    // Mark the voter as voted
     if (a[index]->isvoted == true) {
         printf("You have already voted. Thank you!\n");
     } else {
@@ -239,7 +226,7 @@ void cast(int index, const char* constituency, const char* candidate,struct Tree
 
 int main() {
     int choice, res, index;
-    struct TreeNode *root = NULL; // Initialize root as NULL
+    struct TreeNode *root = NULL;
 
     initial();
 
@@ -259,7 +246,6 @@ int main() {
                 break;
 
             case 1:
-                // Run createCandidates() and assign the returned pointer to root
                 root = createCandidates();
                 if (root != NULL) {
                     printf("\nRegistered as candidate successfully!!!\n");
@@ -279,7 +265,6 @@ int main() {
                 }
 
             case 4:
-                // Check if root is initialized
                 if (root == NULL) {
                     printf("Candidates not yet initialized!\n");
                     break;
@@ -301,8 +286,6 @@ int main() {
                 scanf("%99s", voterConsti);
                 printf("Enter candidate's name: ");
                 scanf("%99s", candidateName);
-
-                // Pass root to the cast function
                 cast(index, voterConsti, candidateName, root);
                 break;
 
