@@ -5,22 +5,19 @@
 #define MAX_CANDIDATES_PER_CONSTITUENCY 10
 #define MAX_CONSTITUENCIES 10
 
-// Define structure for candidate information
 struct Candidate {
     int candidateID;
-    char fullName[100]; // Full name of the candidate
-    long int votes;     // Number of votes the candidate received
+    char fullName[100]; 
+    long int votes;     
 };
 
-// Define structure for n-ary tree node
 struct TreeNode {
-    char constituency[100]; // Name of the constituency
-    struct Candidate candidates[MAX_CANDIDATES_PER_CONSTITUENCY]; // Array of candidates
-    int candidateCount; // Number of candidates in the constituency
-    struct TreeNode *nextConstituency; // Pointer to the next constituency
+    char constituency[100];
+    struct Candidate candidates[MAX_CANDIDATES_PER_CONSTITUENCY];
+    int candidateCount; 
+    struct TreeNode *nextConstituency; 
 };
 
-// Create a new node with given constituency
 struct TreeNode *createNode(char constituency[]) {
     struct TreeNode *newNode = (struct TreeNode *)malloc(sizeof(struct TreeNode));
     if (newNode != NULL) {
@@ -31,7 +28,6 @@ struct TreeNode *createNode(char constituency[]) {
     return newNode;
 }
 
-// Add a candidate to a given constituency node
 void addCandidate(struct TreeNode *constituencyNode, int candidateID, char fullName[], long int votes) {
     if (constituencyNode == NULL || constituencyNode->candidateCount >= MAX_CANDIDATES_PER_CONSTITUENCY) {
         printf("Invalid constituency or candidate limit reached.\n");
@@ -46,7 +42,6 @@ void addCandidate(struct TreeNode *constituencyNode, int candidateID, char fullN
     constituencyNode->candidateCount++;
 }
 
-// Display the candidates for each constituency
 void displayCandidates(struct TreeNode *root) {
     struct TreeNode *currentNode = root;
     while (currentNode != NULL) {
@@ -60,12 +55,10 @@ void displayCandidates(struct TreeNode *root) {
     }
 }
 
-// Example usage
 int main() {
     struct TreeNode *root = NULL;
     struct TreeNode *currentConstituency = NULL;
 
-    // Example: Adding candidates for constituencies
     root = createNode("National");
 
     char choice;
@@ -111,8 +104,6 @@ int main() {
 
     printf("Candidate Database by Constituency:\n");
     displayCandidates(root);
-
-    // Remember to handle memory deallocation (free nodes) when done using the tree
 
     return 0;
 }
